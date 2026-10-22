@@ -1,30 +1,25 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+
+import { getEntry, render } from "astro:content";
+import Markdown from "@components/misc/Markdown.astro";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+const aboutPost = await getEntry("spec", "about");
+
+if (!aboutPost) {
+	throw new Error("About page content not found");
+}
+
+const { Content } = await render(aboutPost);
 ---
-
-<Layout title="关于" description="关于 Chariot 和这个博客" pubDate={new Date('2026-01-01')}>
-	<div class="about-intro">
-		<div class="avatar">C</div>
-		<div><p class="eyebrow">About this place</p><h1>你好，我是 Chariot。</h1><p class="summary">这是我的个人小站，也是一个把想法慢慢整理下来的地方。</p></div>
-	</div>
-	<h2>为什么写博客？</h2>
-	<p>有些东西只在写下来的时候，才真正变成自己的。这里会记录我在技术、学习和生活中的尝试，既包括踩坑，也包括偶尔想明白的事情。</p>
-	<h2>这里会有什么？</h2>
-	<ul>
-		<li>前端与个人项目的实践记录</li>
-		<li>学习过程中的整理与复盘</li>
-		<li>生活里值得留住的片段</li>
-	</ul>
-	<p>如果你偶然来到这里，欢迎随便逛逛。希望这些文字能给你一点启发，或者至少让你找到一篇读起来舒服的文章。</p>
-</Layout>
-
-<style>
-	.about-intro { display: flex; align-items: center; gap: 24px; margin-bottom: 56px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
-	.avatar { display: grid; flex: 0 0 auto; width: 82px; height: 82px; place-items: center; background: var(--accent); color: #fff; font-family: Georgia, serif; font-size: 2.5rem; }
-	.eyebrow { margin-bottom: 8px; color: var(--accent); font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
-	h1 { margin-bottom: 8px; font-size: 2.4rem; }
-	.summary { margin: 0; color: var(--muted); }
-	h2 { margin-top: 2.2rem; font-size: 1.4rem; }
-	li { margin: .45rem 0; }
-	@media (max-width: 620px) { .about-intro { align-items: flex-start; flex-direction: column; } h1 { font-size: 2rem; } }
-</style>
+<MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full ">
+            <Markdown class="mt-2">
+                <Content />
+            </Markdown>
+        </div>
+    </div>
+</MainGridLayout>

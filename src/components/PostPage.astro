@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import PostCard from "./PostCard.astro";
+
+const { page } = Astro.props;
+
+let delay = 0;
+const interval = 50;
+---
+<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+	{page.data.length === 0 && (
+		<div class="card-base px-8 py-14 text-center onload-animation">
+			<div class="mx-auto mb-4 h-12 w-12 rounded-2xl bg-[var(--btn-regular-bg)] text-[var(--primary)] grid place-items-center text-xl font-bold">C</div>
+			<h1 class="text-2xl font-bold text-black/90 dark:text-white/90 mb-2">第一篇文章正在路上</h1>
+			<p class="text-black/50 dark:text-white/50">这里很快会有新的文字。</p>
+		</div>
+	)}
+    {page.data.map((entry: CollectionEntry<"posts">) => (
+        <PostCard
+                entry={entry}
+                title={entry.data.title}
+                tags={entry.data.tags}
+                category={entry.data.category}
+                published={entry.data.published}
+                updated={entry.data.updated}
+                url={getPostUrlBySlug(entry.slug)}
+                image={entry.data.image}
+                description={entry.data.description}
+                draft={entry.data.draft}
+                class:list="onload-animation"
+                style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+        ></PostCard>
+    ))}
+</div>
