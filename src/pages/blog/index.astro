@@ -24,7 +24,7 @@ const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 				<p>技术、学习和生活的长期记录。</p>
 			</header>
 			<section class="posts">
-				{posts.map((post, index) => (
+				{posts.length > 0 ? posts.map((post, index) => (
 					<a class="post" href={`${base}blog/${post.id}/`}>
 						<div class="post-number">{String(index + 1).padStart(2, '0')}</div>
 						<div class="post-copy">
@@ -35,7 +35,9 @@ const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 						{post.data.heroImage && <Image width={260} height={150} src={post.data.heroImage} alt="" />}
 						<span class="arrow" aria-hidden="true">↗</span>
 					</a>
-				))}
+				)) : (
+					<div class="empty-state"><span>00</span><div><h2>还没有文章</h2><p>第一篇内容发布后，会出现在这里。</p></div></div>
+				)}
 			</section>
 		</main>
 		<Footer />
@@ -47,6 +49,10 @@ const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 	.page-head h1 { margin: 0; font-size: 3.4rem; }
 	.page-head > p { max-width: 280px; margin: 0 0 8px; color: var(--muted); text-align: right; }
 	.posts { border-top: 2px solid var(--ink); }
+	.empty-state { display: flex; align-items: center; gap: 28px; min-height: 220px; padding: 40px 8px; border-bottom: 1px solid var(--line); }
+	.empty-state > span { color: var(--accent); font-family: Georgia, serif; }
+	.empty-state h2 { margin-bottom: 6px; font-size: 1.55rem; }
+	.empty-state p { margin: 0; color: var(--muted); }
 	.post { display: grid; grid-template-columns: 54px minmax(0, 1fr) 220px 28px; align-items: center; gap: 28px; min-height: 190px; padding: 24px 8px; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; transition: background 160ms ease, padding 160ms ease; }
 	.post:hover { padding-right: 14px; padding-left: 14px; background: var(--surface); }
 	.post-number { align-self: start; padding-top: 3px; color: var(--accent); font-family: Georgia, serif; }
@@ -62,5 +68,6 @@ const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 		.post { grid-template-columns: 34px 1fr 22px; gap: 14px; min-height: 150px; }
 		.post img { display: none; }
 		.post h2 { font-size: 1.3rem; }
+		.empty-state { gap: 18px; min-height: 180px; }
 	}
 </style>

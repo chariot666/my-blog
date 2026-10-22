@@ -37,9 +37,9 @@ const latest = posts[0];
 			<section class="latest" aria-labelledby="latest-heading">
 				<div class="section-heading">
 					<div><p class="eyebrow">From the desk</p><h2 id="latest-heading">最近写了什么</h2></div>
-					<a class="view-all" href={`${base}blog/`}>查看全部 <span aria-hidden="true">↗</span></a>
+					{posts.length > 0 && <a class="view-all" href={`${base}blog/`}>查看全部 <span aria-hidden="true">↗</span></a>}
 				</div>
-				{latest && (
+				{latest ? (
 					<a class="featured" href={`${base}blog/${latest.id}/`}>
 						{latest.data.heroImage && <Image width={720} height={420} src={latest.data.heroImage} alt="" />}
 						<div class="featured-body">
@@ -49,6 +49,11 @@ const latest = posts[0];
 							<span class="read-more">阅读全文 <span aria-hidden="true">→</span></span>
 						</div>
 					</a>
+				) : (
+					<div class="empty-state">
+						<span>01</span>
+						<div><h3>第一篇文章正在路上</h3><p>这里很快会有新的文字。</p></div>
+					</div>
 				)}
 				<div class="post-list">
 					{posts.slice(1, 4).map((post) => (
@@ -93,6 +98,10 @@ const latest = posts[0];
 	.featured-body p { max-width: 500px; color: var(--muted); }
 	.read-more { margin-top: 14px; font-size: .9rem; }
 	.post-list { margin-top: 16px; }
+	.empty-state { display: flex; align-items: center; gap: 28px; min-height: 190px; padding: 36px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+	.empty-state > span { color: var(--accent); font-family: Georgia, serif; }
+	.empty-state h3 { margin-bottom: 5px; font-size: 1.35rem; }
+	.empty-state p { margin: 0; color: var(--muted); }
 	.post-row { display: flex; align-items: center; justify-content: space-between; padding: 22px 8px; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
 	.post-row:hover { padding-left: 14px; background: var(--surface); }
 	.post-row h3 { margin: 0; font-size: 1.22rem; }
@@ -108,6 +117,7 @@ const latest = posts[0];
 		.featured img { min-height: 190px; max-height: 220px; }
 		.featured-body { padding: 28px 24px; }
 		.featured h3 { font-size: 1.55rem; }
+		.empty-state { gap: 18px; padding: 28px 18px; }
 	}
 	@media (max-width: 380px) {
 		.intro h1 { font-size: 2.25rem; }
