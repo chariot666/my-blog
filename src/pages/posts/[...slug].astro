@@ -1,5 +1,6 @@
 ---
 import path from "node:path";
+import { render } from "astro:content";
 import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
@@ -15,15 +16,14 @@ import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
 	return blogEntries.map((entry) => ({
-		params: { slug: entry.slug },
+		params: { slug: entry.id.replace(/\.(md|mdx)$/i, "") },
 		props: { entry },
 	}));
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
+const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
-const { remarkPluginFrontmatter } = await entry.render();
 
 const jsonLd = {
 	"@context": "https://schema.org",
