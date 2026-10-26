@@ -1,0 +1,148 @@
+---
+const introImage = "/images/ink-intro.webp";
+---
+
+<div id="ink-intro" aria-hidden="true">
+	<div class="ink-paper"></div>
+	<svg
+		class="ink-canvas"
+		viewBox="0 0 100 100"
+		preserveAspectRatio="xMidYMid slice"
+		role="presentation"
+	>
+		<defs>
+			<filter id="ink-edge" x="-35%" y="-35%" width="170%" height="170%">
+				<feTurbulence
+					type="fractalNoise"
+					baseFrequency="0.045"
+					numOctaves="4"
+					seed="18"
+					result="noise"
+				/>
+				<feDisplacementMap
+					in="SourceGraphic"
+					in2="noise"
+					scale="8"
+					xChannelSelector="R"
+					yChannelSelector="B"
+				/>
+			</filter>
+			<mask id="ink-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+				<rect width="100" height="100" fill="black"></rect>
+				<g filter="url(#ink-edge)" fill="white">
+					<circle class="ink-drop drop-one" cx="47" cy="48" r="43"></circle>
+					<circle class="ink-drop drop-two" cx="16" cy="30" r="35"></circle>
+					<circle class="ink-drop drop-three" cx="82" cy="27" r="38"></circle>
+					<circle class="ink-drop drop-four" cx="25" cy="82" r="37"></circle>
+					<circle class="ink-drop drop-five" cx="78" cy="78" r="40"></circle>
+				</g>
+			</mask>
+		</defs>
+		<image
+			class="ink-photo"
+			href={introImage}
+			x="0"
+			y="0"
+			width="100"
+			height="100"
+			preserveAspectRatio="xMidYMid slice"
+			mask="url(#ink-mask)"
+		></image>
+	</svg>
+	<div class="ink-wash"></div>
+</div>
+
+<style>
+	#ink-intro {
+		position: fixed;
+		inset: 0;
+		z-index: 9999;
+		overflow: hidden;
+		background: #e9e7df;
+		animation: intro-exit 800ms cubic-bezier(0.65, 0, 0.35, 1) 2800ms forwards;
+	}
+
+	.ink-paper {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(circle at 20% 25%, rgb(255 255 255 / 45%), transparent 32%),
+			linear-gradient(115deg, rgb(255 255 255 / 30%), transparent 55%),
+			#e9e7df;
+	}
+
+	.ink-canvas {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.ink-photo {
+		filter: saturate(0.72) contrast(1.1) brightness(0.92);
+	}
+
+	.ink-drop {
+		transform-box: fill-box;
+		transform-origin: center;
+		transform: scale(0.02);
+		animation: ink-bloom 2150ms cubic-bezier(0.2, 0.72, 0.2, 1) forwards;
+	}
+
+	.drop-two { animation-delay: 160ms; }
+	.drop-three { animation-delay: 310ms; }
+	.drop-four { animation-delay: 470ms; }
+	.drop-five { animation-delay: 620ms; }
+
+	.ink-wash {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, transparent 55%, rgb(7 12 9 / 24%));
+		opacity: 0;
+		animation: wash-in 900ms ease 1700ms forwards;
+	}
+
+	@keyframes ink-bloom {
+		0% { transform: scale(0.02); opacity: 0; }
+		10% { opacity: 0.92; }
+		72%, 100% { transform: scale(1.72); opacity: 1; }
+	}
+
+	@keyframes wash-in {
+		to { opacity: 1; }
+	}
+
+	@keyframes intro-exit {
+		0% { opacity: 1; visibility: visible; }
+		100% { opacity: 0; visibility: hidden; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		#ink-intro { display: none; }
+	}
+</style>
+
+<script>
+	const intro = document.getElementById("ink-intro");
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const alreadyPlayed = sessionStorage.getItem("chariot-ink-intro") === "played";
+
+	if (intro && (reduceMotion || alreadyPlayed)) {
+		intro.remove();
+	} else if (intro) {
+		document.documentElement.classList.add("ink-intro-active");
+		sessionStorage.setItem("chariot-ink-intro", "played");
+
+		const finishIntro = () => {
+			document.documentElement.classList.remove("ink-intro-active");
+			intro.remove();
+		};
+
+		intro.addEventListener("animationend", (event) => {
+			if ((event as AnimationEvent).animationName === "intro-exit") finishIntro();
+		});
+		window.setTimeout(finishIntro, 4000);
+	}
+</script>
+
