@@ -1,7 +1,7 @@
 ---
 title: 从春日到盛夏
 published: 2026-10-31
-description: 六张照片。
+description: 六张照片
 image: "/photos/from-spring-to-summer/02-lake-and-pagoda.webp"
 tags: [摄影, 图集]
 category: 摄影
