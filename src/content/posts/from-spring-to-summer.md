@@ -9,12 +9,12 @@ draft: false
 lang: zh_CN
 ---
 
-![盛开的玉兰](/photos/from-spring-to-summer/01-magnolia.webp)
+![盛开的玉兰](/photos/from-spring-to-summer/01-magnolia.webp "responsive:2200x1457")
 
-![晨光下的建筑与荷塘](/photos/from-spring-to-summer/03-morning-light.webp)
+![晨光下的建筑与荷塘](/photos/from-spring-to-summer/03-morning-light.webp "responsive:2200x1650")
 
-![树荫中的园林水景](/photos/from-spring-to-summer/04-garden.webp)
+![树荫中的园林水景](/photos/from-spring-to-summer/04-garden.webp "responsive:2200x1650")
 
-![水边的白鹭](/photos/from-spring-to-summer/05-egrets.webp)
+![水边的白鹭](/photos/from-spring-to-summer/05-egrets.webp "responsive:2200x1650")
 
-![雨雾中的山林](/photos/from-spring-to-summer/06-misty-mountain.webp)
+![雨雾中的山林](/photos/from-spring-to-summer/06-misty-mountain.webp "responsive:2200x1650")
