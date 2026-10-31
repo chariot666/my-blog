@@ -11,8 +11,6 @@ lang: zh_CN
 
 ![盛开的玉兰](/photos/from-spring-to-summer/01-magnolia.webp)
 
-![湖山与远塔](/photos/from-spring-to-summer/02-lake-and-pagoda.webp)
-
 ![晨光下的建筑与荷塘](/photos/from-spring-to-summer/03-morning-light.webp)
 
 ![树荫中的园林水景](/photos/from-spring-to-summer/04-garden.webp)
